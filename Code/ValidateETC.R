@@ -24,7 +24,7 @@ tasks[[1]] = function() {
   model$set_parameters("O2", 210)
   model$set_forcings("PAR", cbind(c(0,100,101), c(100,100,HI)))
   model$set_time(seq(0,6000,1))
-  y0 = cvode(model)
+  y0 = SimulationModels:::cvode.ODEmodel(model)
   ynames = names(model$States$Values)
   model$set_states(ynames, y0[6000,ynames])
   
@@ -64,14 +64,22 @@ tasks[[1]] = function() {
   # Run the simulation
   model$set_settings("maxtime", 1e3)
   ACI_Hald = cvode(model)
-  ACI_Hald = as_data_frame(as.data.frame(ACI_Hald))
+  ACI_Hald = as_tibble(as.data.frame(ACI_Hald))
   
   
   
   # Extract steady-state parameters
-  HaldACI = data_frame(PAR = HI, CO2 = CO2[seq(1,2*n,2)], kP700 = NA, P700 = NA, Fm = NA, F = NA, 
+  HaldACI = tibble(PAR = HI, CO2 = CO2[seq(1,2*n,2)], kP700 = NA, P700 = NA, Fm = NA, F = NA, 
                        Ci = NA, PhiPSII_or = NA, pHl = NA, PQH2f = NA, Kcyt = NA, An = NA,
                        fRB = NA, ATP = NA)
+  
+  HaldACI = mutate(HaldACI, Fm = as.numeric(Fm), F = as.numeric(F), 
+                   P700 = as.numeric(P700), PhiPSII_or = as.numeric(PhiPSII_or),
+                   pHl = as.numeric(pHl), PQH2f = as.numeric(PQH2f), 
+                   An = as.numeric(An), fRB = as.numeric(fRB), 
+                   ATP = as.numeric(ATP), Ci = as.numeric(Ci),
+                   kP700 = as.numeric(kP700))
+
   for(i in 1:n) {
     HaldACI[i,"Fm"] = max(subset(ACI_Hald, time >= flashpoints[i] & 
                                    time <= (flashpoints[i] + 1) &
@@ -161,14 +169,21 @@ tasks[[2]] = function() {
   # Run the simulation
   model$set_settings("maxtime", 1e3)
   LRC_Hald = cvode(model)
-  LRC_Hald = as_data_frame(as.data.frame(LRC_Hald))
+  LRC_Hald = as_tibble(as.data.frame(LRC_Hald))
   
   
   
   # Extract steady-state parameters
-  HaldLRC = data_frame(PAR = PARsc, CO2 = 2e3, kP700 = NA, P700 = NA, Fm = NA, F = NA, 
+  HaldLRC = tibble(PAR = PARsc, CO2 = 2e3, kP700 = NA, P700 = NA, Fm = NA, F = NA, 
                        Ci = NA, PhiPSII_or = NA, pHl = NA, PQH2f = NA, Kcyt = NA, An = NA,
                        fRB = NA, ATP = NA)
+  
+  HaldLRC = mutate(HaldLRC, Fm = as.numeric(Fm), F = as.numeric(F), 
+                   P700 = as.numeric(P700), PhiPSII_or = as.numeric(PhiPSII_or),
+                   pHl = as.numeric(pHl), PQH2f = as.numeric(PQH2f), 
+                   An = as.numeric(An), fRB = as.numeric(fRB), 
+                   ATP = as.numeric(ATP), Ci = as.numeric(Ci),
+                   kP700 = as.numeric(kP700))
   for(i in 1:n) {
     HaldLRC[i,"Fm"] = max(subset(LRC_Hald, time >= flashpoints[i] & 
                                    time <= (flashpoints[i] + 1) &

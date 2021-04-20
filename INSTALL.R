@@ -2,7 +2,7 @@
 # An internet connection is required
 install.packages(c("dplyr", "ggplot2", "broom", "readr" ,"Rcpp", "RcppArmadillo", 
                    "rjson", "GetoptLong", "R6", "plyr", "TeachingDemos", "Hmisc", 
-                   "doParallel"))
+                   "doParallel","deSolve"))
 curdir = getwd()
 setwd("Packages")
 system("R CMD INSTALL RcppSundials --preclean --clean")

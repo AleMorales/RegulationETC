@@ -45,7 +45,7 @@ model$set_settings("reset", resetpoints)
 LRC = cvode(model)
 
 endpoints = which(time %in% seq(dt, dt*nPAR, by = dt))
-LRCss = as_data_frame(as.data.frame(LRC[endpoints,])) %>% mutate(PAR = PARsc)
+LRCss = as_tibble(as.data.frame(LRC[endpoints,])) %>% mutate(PAR = PARsc)
 
 }
 
@@ -87,7 +87,7 @@ model$set_settings("reset", resetpoints)
 ACI = cvode(model)
 
 endpoints = which(time %in% seq(dt, dt*nCO2, by = dt))
-ACIss = as_data_frame(as.data.frame(ACI[endpoints,])) %>% mutate(CO2 = CO2sc) %>% arrange(CO2)
+ACIss = as_tibble(as.data.frame(ACI[endpoints,])) %>% mutate(CO2 = CO2sc) %>% arrange(CO2)
 #ACIss = ACIss[-c(8,9),]
 
 }
@@ -116,7 +116,7 @@ model$set_time(time)
 # Run the simulation
 sim = cvode(model)
 
-Induction_400 = as_data_frame(as.data.frame(sim))
+Induction_400 = as_tibble(as.data.frame(sim))
 }
 
 
@@ -144,7 +144,7 @@ model$set_time(time)
 # Run the simulation
 sim = cvode(model)
 
-Induction_100 = as_data_frame(as.data.frame(sim))
+Induction_100 = as_tibble(as.data.frame(sim))
 }
 
 
@@ -173,7 +173,7 @@ tasks[[5]] = function() {
   # Run the simulation
   sim = cvode(model)
   
-  Induction_100 = as_data_frame(as.data.frame(sim))
+  Induction_100 = as_tibble(as.data.frame(sim))
 }
 
 

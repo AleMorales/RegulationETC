@@ -48,7 +48,7 @@ model$set_forcings("PAR", cbind(PARtime, PAR))
 model$set_forcings("Ca", cbind(c(0,1), c(372,372)))
 LRC_372 = cvode(model)
 LRC_372 = cbind(LRC_372, PAR = approx(PARtime, PAR, time)$y)
-ecs_372 = as_data_frame(LRC_372[c(which(time >= dt-5 & time <= dt+30), 
+ecs_372 = as_tibble(LRC_372[c(which(time >= dt-5 & time <= dt+30), 
                               which(time >= 2*dt-5 & time <= 2*dt+30),
                               which(time >= 3*dt-5 & time <= 3*dt+30),
                               which(time >= 4*dt-5 & time <= 4*dt+30)), ])
@@ -59,7 +59,7 @@ model$set_forcings("Ca", cbind(c(0,1), c(50,50)))
 LRC_50 = cvode(model)
 LRC_50 = cbind(LRC_50, PAR = approx(PARtime, PAR, time)$y)
 
-ecs_50 = as_data_frame(LRC_50[c(which(time >= dt & time <= dt+30), 
+ecs_50 = as_tibble(LRC_50[c(which(time >= dt & time <= dt+30), 
                               which(time >= 2*dt & time <= 2*dt+30),
                               which(time >= 3*dt & time <= 3*dt+30),
                               which(time >= 4*dt & time <= 4*dt+30)), ])
@@ -67,7 +67,7 @@ ecs_50 = as_data_frame(LRC_50[c(which(time >= dt & time <= dt+30),
 
 
 # Calculate ecst, ecsinv
-ecs = data_frame(PAR = rep(PARsc, 2), CO2 = rep(c(372, 55), each = nPAR),
+ecs = tibble(PAR = rep(PARsc, 2), CO2 = rep(c(372, 55), each = nPAR),
                   ecst = NA, ecsinv = NA, gH = NA, pmf = NA, DpH = NA)
 ecs$ecst[1] = with(subset(ecs_372, time >= dt & time <= dt+30), diff(range(DPsi)))
 ecs$ecst[2] = with(subset(ecs_372, time >= 2*dt & time <= 2*dt+30), diff(range(DPsi)))

@@ -26,7 +26,7 @@ tasks[[1]] = function() {
     else
       result[i,] = temp
   }
-  result = as_data_frame(result) %>% mutate(PiT = phosphate)
+  result = as_tibble(result) %>% mutate(PiT = phosphate)
   
 }
 

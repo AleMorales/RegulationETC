@@ -52,7 +52,7 @@ calculate_Fm <- function(model) {
   
   
   # Extract Fm
-  Fm = data_frame(Time = flashes, Fm = NA, Fs = NA, ZX = NA, Q = NA, fPsbSp = NA, alphar = NA)
+  Fm = tibble(Time = flashes, Fm = NA, Fs = NA, ZX = NA, Q = NA, fPsbSp = NA, alphar = NA)
   for(i in 1:21) {
     Fm$Fm[i] = max(sim[resetpoints[i]:(resetpoints[i] + 699),"Fluor"])
     Fm$Fs[i] = sim[resetpoints[i] - 1,"Fluor"]

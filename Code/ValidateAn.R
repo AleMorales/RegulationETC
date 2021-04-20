@@ -44,7 +44,7 @@ tasks[[1]] = function() {
   LRC = cvode(model)
   
   endpoints = which(time %in% seq(dt, dt*nPAR, by = dt))
-  LRC_An = as_data_frame(as.data.frame(LRC[endpoints,])) %>% mutate(PAR = PARsc)
+  LRC_An = as_tibble(as.data.frame(LRC[endpoints,])) %>% mutate(PAR = PARsc)
 }
 
 # Steady-state response to CO2 --------------------------------------------
@@ -84,7 +84,7 @@ tasks[[2]] = function() {
   ACI = cvode(model)
   
   endpoints = which(time %in% seq(dt, dt*nCO2, by = dt))
-  ACIss = as_data_frame(as.data.frame(ACI[endpoints,])) %>% mutate(CO2 = CO2sc) %>% arrange(CO2)
+  ACIss = as_tibble(as.data.frame(ACI[endpoints,])) %>% mutate(CO2 = CO2sc) %>% arrange(CO2)
   ACIss$CO2[7] = mean(ACIss$CO2[7:9])
   ACI_An = ACIss[-(8:9),]
 }
@@ -143,7 +143,7 @@ tasks[[3]] = function() {
   # Run the simulation
   sim = cvode(model)
   
-  Induction_0_1000 = as_data_frame(as.data.frame(sim)) %>% mutate(PAR = approx(PARtime, PAR, time)$y)
+  Induction_0_1000 = as_tibble(as.data.frame(sim)) %>% mutate(PAR = approx(PARtime, PAR, time)$y)
 }
 
 # Induction curve (70 - 800) ----------------------------------------------
@@ -169,7 +169,7 @@ tasks[[4]] = function() {
   # Run the simulation
   sim = cvode(model)
   
-  Induction_70_800 = as_data_frame(as.data.frame(sim))
+  Induction_70_800 = as_tibble(as.data.frame(sim))
 }
 
 
@@ -199,7 +199,7 @@ tasks[[5]] = function() {
   # Run the simulation
   sim = cvode(model)
   
-  Induction_800_130 = as_data_frame(as.data.frame(sim))
+  Induction_800_130 = as_tibble(as.data.frame(sim))
 }
 
 
@@ -227,7 +227,7 @@ tasks[[6]] = function() {
   # Run the simulation
   sim = cvode(model)
   
-  Induction_600_200 = as_data_frame(as.data.frame(sim))
+  Induction_600_200 = as_tibble(as.data.frame(sim))
 }
 
 # Run simulations in parallel and save to file ------------------------------------------------

@@ -65,7 +65,7 @@ library(dplyr)
 library(ggplot2)
 load("Intermediate/sens.RData")
 
-sens = as_data_frame(sens)
+sens = as_tibble(sens)
 
 # Create a label representing the strenght of CET vs ANCET
 sens = sens %>% mutate(CET = vNDH + vFQR, ANCET = WWC + vNiR + vMDH, 

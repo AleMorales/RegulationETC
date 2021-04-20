@@ -51,7 +51,7 @@ tasks[[1]] = function() {
   LRC = cvode(model)
   
   endpoints = which(time %in% seq(dt, dt*nPAR, by = dt))
-  LRCss = as_data_frame(as.data.frame(LRC[endpoints,])) %>% mutate(PAR = PARsc)
+  LRCss = as_tibble(as.data.frame(LRC[endpoints,])) %>% mutate(PAR = PARsc)
   
 }
 
@@ -98,7 +98,7 @@ tasks[[2]] = function() {
   ACI = cvode(model)
   
   endpoints = which(time %in% seq(dt, dt*nCO2, by = dt))
-  ACIss = as_data_frame(as.data.frame(ACI[endpoints,])) %>% mutate(CO2 = CO2sc) %>% arrange(CO2)
+  ACIss = as_tibble(as.data.frame(ACI[endpoints,])) %>% mutate(CO2 = CO2sc) %>% arrange(CO2)
   #ACIss = ACIss[-c(8,9),]
   
 }
